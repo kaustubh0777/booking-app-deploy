@@ -8,9 +8,6 @@ import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-const path = require('path');
-
-
 const app = express();
 dotenv.config();
 
@@ -48,13 +45,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, "/client/build")));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
-});
-
-app.listen(process.env.PORT || 3000, () => {
+const PORT=process.env.PORT||3000
+app.listen(PORT, () => {
   connect();
   console.log("Connected to backend.");
 });
+
+if (process.env.NODE_ENV === ‘production’ || process.env.NODE_ENV === ‘staging’) {
+  app.use(express.static(‘client/build’));
+  app.get(‘*’, (req, res) => {
+  res.sendFile(path.join(__dirname + ‘/client/build/index.html’));
+  });
+ }
