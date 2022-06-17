@@ -8,6 +8,8 @@ import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
+const path = require('path');
+
 
 const app = express();
 dotenv.config();
